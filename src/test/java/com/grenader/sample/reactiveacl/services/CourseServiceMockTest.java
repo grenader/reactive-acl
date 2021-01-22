@@ -4,34 +4,42 @@ import com.grenader.sample.reactiveacl.model.Course;
 import com.grenader.sample.reactiveacl.repository.CourseRepository;
 import com.grenader.sample.reactiveacl.repository.StudentRepository;
 import org.junit.jupiter.api.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-@SpringBootTest
-@ActiveProfiles("test")
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.nullable;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class CourseServiceTest {
+class CourseServiceMockTest {
 
     private SchoolService service;
 
     private static Course expectedCourse;
     private static String expectedCourseId;
 
-    @Autowired
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository = mock(StudentRepository.class);
 
-    @Autowired
-    private CourseRepository courseRepository;
+    private final CourseRepository courseRepository = mock(CourseRepository.class);
 
     @BeforeEach
     void setUp() {
+        expectedCourse = Course.builder().name("Math").description("Math Desc").build();
+
+        when(courseRepository.findById(nullable(String.class))).thenReturn(Optional.of(expectedCourse));
+
+        when(courseRepository.findByName(anyString())).thenReturn(new ArrayList<>());
+        when(courseRepository.findByName("Math")).thenReturn(List.of(expectedCourse));
 
         service = new SchoolService(studentRepository, courseRepository);
 
-        expectedCourse = Course.builder().name("Math").description("Math Desc").build();
         service.addCourse(expectedCourse);
 
         expectedCourseId = expectedCourse.getId();
@@ -39,7 +47,7 @@ class CourseServiceTest {
     }
 
     @Test
-    void testGetCourseById_and_delete() {
+    void testGetCourseById() {
         final Course course = service.getCourseById(expectedCourseId);
         assertEquals(expectedCourse, course);
     }
@@ -55,6 +63,8 @@ class CourseServiceTest {
     @AfterEach
     void tearDown()
     {
+        when(courseRepository.findById(nullable(String.class))).thenReturn(Optional.empty());
+
         service.deleteCourse(expectedCourseId);
         assertNull(service.getCourseById(expectedCourseId));
     }

@@ -13,11 +13,14 @@ import java.util.Optional;
 @Service
 public class SchoolService {
 
-    @Autowired
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
-    @Autowired
-    private CourseRepository courseRepository;
+    private final CourseRepository courseRepository;
+
+    public SchoolService(StudentRepository studentRepository, CourseRepository courseRepository) {
+        this.studentRepository = studentRepository;
+        this.courseRepository = courseRepository;
+    }
 
     public Student getStudentById(String studentId) {
         final Optional<Student> studentOptional = studentRepository.findById(studentId);
