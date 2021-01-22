@@ -1,18 +1,17 @@
 package com.grenader.sample.reactiveacl;
 
-import com.grenader.sample.reactiveacl.model.Customer;
-import com.grenader.sample.reactiveacl.repository.CustomerRepository;
+import com.grenader.sample.reactiveacl.model.Student;
+import com.grenader.sample.reactiveacl.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.mongodb.repository.support.SimpleMongoRepository;
 
 @SpringBootApplication
 public class ReactiveAclApplication implements CommandLineRunner {
 
 	@Autowired
-	private CustomerRepository repository;
+	private StudentRepository repository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ReactiveAclApplication.class, args);
@@ -24,14 +23,14 @@ public class ReactiveAclApplication implements CommandLineRunner {
 		repository.deleteAll();
 
 		// save a couple of customers
-		repository.save(new Customer("Alice", "Smith"));
-		repository.save(new Customer("Bob", "Smith"));
+		repository.save(new Student("Alice", "Smith"));
+		repository.save(new Student("Bob", "Smith"));
 
 		// fetch all customers
 		System.out.println("Customers found with findAll():");
 		System.out.println("-------------------------------");
-		for (Customer customer : repository.findAll()) {
-			System.out.println(customer);
+		for (Student student : repository.findAll()) {
+			System.out.println(student);
 		}
 		System.out.println();
 
@@ -42,8 +41,8 @@ public class ReactiveAclApplication implements CommandLineRunner {
 
 		System.out.println("Customers found with findByLastName('Smith'):");
 		System.out.println("--------------------------------");
-		for (Customer customer : repository.findByLastName("Smith")) {
-			System.out.println(customer);
+		for (Student student : repository.findByLastName("Smith")) {
+			System.out.println(student);
 		}
 
 	}
