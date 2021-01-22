@@ -4,7 +4,6 @@ import com.grenader.sample.reactiveacl.model.Course;
 import com.grenader.sample.reactiveacl.model.Student;
 import com.grenader.sample.reactiveacl.repository.CourseRepository;
 import com.grenader.sample.reactiveacl.repository.StudentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,8 +38,8 @@ public class SchoolService {
         return studentRepository.findByFirstName(firstName);
     }
 
-    public void addCourse(Course course) {
-        courseRepository.save(course);
+    public Course addCourse(Course course) {
+        return courseRepository.save(course);
     }
 
     public Course getCourseById(String courseId) {
