@@ -24,7 +24,7 @@ public class HttpRequestTest {
     @Test
     public void greetingShouldReturnDefaultMessage() throws Exception {
 
-        String urlToCall = "http://localhost:" + port + "/";
+        String urlToCall = "http://localhost:" + port + "/hello/";
 
         ResponseEntity<String> response = restTemplate.getForEntity(urlToCall, String.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
