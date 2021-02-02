@@ -3,3 +3,12 @@ spring:
     mongodb:
       database: acl-database
 
+  application:
+    name: reactive-acl
+  config:
+    import: optional:configserver:http://localhost:8899/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "info,health,refresh"
