@@ -45,3 +45,8 @@ management:
       exposure:
         include: "info,health,refresh"
 ```
+
+## Test containers.
+Test docker container are used in DB tests.
+Here is a good article of how to configure them: https://www.baeldung.com/spring-boot-testcontainers-integration-test
+
